@@ -1,10 +1,10 @@
-# CALCULADOR_FINANCIACION
+Calculador de Financiacion
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Forma de pago — Sin interés</title>
-  <meta name="description" content="Calculadora de formas de pago sin interés con entrega, fechas cada 30 días, exportación a PNG y opción E‑CHEQS con tipo de cambio. Optimizada para móviles con encabezado y aviso de tipo de cambio." />
+  <meta name="description" content="Calculadora de formas de pago sin interés con entrega, fechas cada 30 días, exportación a PNG y opción E-CHEQS con tipo de cambio. Optimizada para móviles con encabezado y aviso de tipo de cambio." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,9 +14,7 @@
       --text:#e6e7ea; --muted:#9aa3ad; --accent:#10a37f; --accent-2:#2dd4bf; --accent-3:#0b7e62;
       --warn:#f59e0b;
     }
-    @media (prefers-color-scheme: dark){
-      :root{ color-scheme: dark light; }
-    }
+    @media (prefers-color-scheme: dark){ :root{ color-scheme: dark light; } }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -25,18 +23,15 @@
                  radial-gradient(800px 400px at 100% 10%, rgba(45,212,191,.10), transparent 50%),
                  linear-gradient(180deg,var(--bg),var(--bg2) 60%, var(--bg));
       color:var(--text); display:flex; align-items:flex-start; justify-content:center; padding:16px 16px 24px;
-      -webkit-tap-highlight-color: transparent;
-      background-attachment: fixed;
+      -webkit-tap-highlight-color: transparent; background-attachment: fixed;
     }
     @media (max-width: 768px) {
       body { padding-top: calc(64px + env(safe-area-inset-top)); padding-bottom: calc(48px + env(safe-area-inset-bottom)); }
       .card:first-child { margin-top: 12px; }
     }
-
     .app{width:100%; max-width:1140px}
     .grid{display:grid; gap:14px; grid-template-columns:1fr}
     @media(min-width:1000px){ .grid{grid-template-columns:1.05fr .95fr} }
-
     .card{ background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00)), var(--card);
       border:1px solid var(--edge); border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.35); overflow:hidden; }
     .content{ padding:16px }
@@ -44,68 +39,46 @@
     .dot{ width:10px; height:10px; border-radius:999px; background:var(--accent); box-shadow:0 0 18px var(--accent) }
     h2{ font-size:18px; margin:2px 0 10px }
     label{ display:block; margin:8px 0 6px; font-weight:600; color:#d6dde4 }
-
     input[type="number"], select, input[type="range"], input[type="text"], input[type="date"]{
       width:100%; padding:14px 14px; background:#0b0d11; border:1px solid var(--edge);
       color:#e6e7ea; border-radius:12px; outline:none; font-size:16px;
     }
-    input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin_button{ -webkit-appearance:none; margin:0 }
-    .row{ display:flex; gap:10px; flex-wrap:wrap }
-    .row > *{ flex:1 1 200px }
-
-    .chip{
-      border:1px solid var(--edge); background:#0c1014; padding:10px 14px; border-radius:12px; cursor:pointer;
-      font-weight:600; color:#cdd6de; transition:.2s transform, .2s background, .2s border, .2s color; user-select:none;
-      touch-action:manipulation;
-    }
-    .chip:hover{ transform:translateY(-1px); border-color:#263142 }
-    .chip.active{ background:#0d1519; border-color:#2a3a46; color:#e8f9f3 }
-
+    input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin_button{ -webkit-appearance:none; margin:0 }
+    .row{ display:flex; gap:10px; flex-wrap:wrap } .row > *{ flex:1 1 200px }
+    .chip{ border:1px solid var(--edge); background:#0c1014; padding:10px 14px; border-radius:12px; cursor:pointer;
+      font-weight:600; color:#cdd6de; transition:.2s; user-select:none; touch-action:manipulation; }
+    .chip:hover{ transform:translateY(-1px); border-color:#263142 } .chip.active{ background:#0d1519; border-color:#2a3a46; color:#e8f9f3 }
     .segmented{ display:flex; gap:8px; background:#0c1014; border:1px solid var(--edge); border-radius:12px; padding:6px; overflow:auto }
-    .segmented button{
-      flex:1; padding:12px 14px; background:transparent; border:1px solid transparent; border-radius:8px;
-      color:#cdd6de; cursor:pointer; font-weight:700; font-size:16px; min-width:140px; touch-action:manipulation;
-    }
+    .segmented button{ flex:1; padding:12px 14px; background:transparent; border:1px solid transparent; border-radius:8px;
+      color:#cdd6de; cursor:pointer; font-weight:700; font-size:16px; min-width:140px; touch-action:manipulation; }
     .segmented button.active{ background:#0d1519; border-color:#2a3a46; color:#e8f9f3 }
-
     .switch{display:flex; align-items:center; gap:10px; margin-top:8px}
     .switch input{ width:52px; height:28px; appearance:none; background:#12161c; border:1px solid #2a3442; border-radius:999px; position:relative; cursor:pointer }
-    .switch input:checked{ background:#113c32; border-color:#1b6b56 }
-    .switch input::after{ content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; background:#e5e7eb; border-radius:50%; transition:.2s left }
+    .switch input:checked{ background:#113c32; border-color:#1b6b56 } .switch input::after{ content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; background:#e5e7eb; border-radius:50%; transition:.2s left }
     .switch input:checked::after{ left:27px; }
     .muted{ color:#9aa3ad; font-size:13px }
-
-    .btn{ padding:14px 16px; border-radius:12px; border:1px solid var(--edge);
-      background:#0b0f14; color:#e5e7eb; cursor:pointer; font-weight:700; transition:.2s transform, .2s background, .2s border; font-size:16px; }
-    .btn:hover{ transform:translateY(-1px) }
-    .btn.primary{ background:linear-gradient(180deg,var(--accent),var(--accent-3)); border-color:#0d5d49 }
-    .btn.bar{ display:flex; gap:10px; flex-wrap:wrap }
-    .btn.bar .btn{ flex:1 1 160px }
-
+    .btn{ padding:14px 16px; border-radius:12px; border:1px solid var(--edge); background:#0b0f14; color:#e5e7eb; cursor:pointer; font-weight:700; transition:.2s; font-size:16px; }
+    .btn:hover{ transform:translateY(-1px) } .btn.primary{ background:linear-gradient(180deg,var(--accent),var(--accent-3)); border-color:#0d5d49 }
+    .btn.bar{ display:flex; gap:10px; flex-wrap:wrap } .btn.bar .btn{ flex:1 1 160px }
     .stat{ background:linear-gradient(180deg,#0f141a,#0c1117); border:1px solid var(--edge); border-radius:14px; padding:12px; }
-    .stat .k{ font-size:12px; color:#b1bcc7 }
-    .stat .v{ font-size:20px; font-weight:700; letter-spacing:.2px; word-break:break-word }
-
+    .stat .k{ font-size:12px; color:#b1bcc7 } .stat .v{ font-size:20px; font-weight:700; letter-spacing:.2px; word-break:break-word }
     .tableWrap{ width:100%; overflow:auto; -webkit-overflow-scrolling:touch; border-radius:12px; border:1px solid var(--edge) }
-    table{ width:100%; border-collapse:collapse; min-width:560px; }
-    th, td{ padding:12px 10px; border-bottom:1px solid var(--edge); text-align:left; white-space:nowrap }
-    th{ color:#d1d7de; font-weight:600; background:#0e1218; position:sticky; top:0 }
-    tfoot td{ font-weight:700 }
+    table{ width:100%; border-collapse:collapse; min-width:560px; } th, td{ padding:12px 10px; border-bottom:1px solid var(--edge); text-align:left; white-space:nowrap }
+    th{ color:#d1d7de; font-weight:600; background:#0e1218; position:sticky; top:0 } tfoot td{ font-weight:700 }
     .footer{ text-align:center; margin-top:12px; color:#9aa7b3; font-size:12px }
-
     .inline{ display:flex; align-items:center; gap:10px; flex-wrap:wrap }
-    .pct-badge{ padding:6px 10px; border-radius:10px; background:#0d1418; border:1px solid var(--edge);
-      font-weight:700; color:#bfe7da; min-width:56px; text-align:center }
+    .pct-badge{ padding:6px 10px; border-radius:10px; background:#0d1418; border:1px solid var(--edge); font-weight:700; color:#bfe7da; min-width:56px; text-align:center }
     .group{ border:1px dashed #1f2a34; border-radius:12px; padding:10px }
-
-    /* Área a exportar como PNG */
+    /* Export state: force dark background to avoid white PNG */
+    .exporting #exportArea{ background:#0b0c10 !important; }
+    .exporting #tabla thead th{ background:#0e1218 !important; }
+    .exporting .card{ box-shadow:none !important; }
     #exportArea{ padding:12px }
     .headerRow{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px }
     .brandTitle{ font-size:22px; font-weight:800; letter-spacing:.6px; text-transform:uppercase }
     .badge{ padding:6px 10px; border:1px solid var(--edge); border-radius:999px; font-size:12px; color:#cfeee4 }
-    .note{ font-size:12px; color:#a6b3bf }
-    .disclaimer{ margin-top:10px; font-size:12px; color:#a6b3bf }
+    .note{ font-size:12px; color:#a6b3bf } .disclaimer{ margin-top:10px; font-size:12px; color:#a6b3bf }
+    .hint{ font-size:12px; color:#c9d4df }
   </style>
 </head>
 <body>
@@ -143,19 +116,19 @@
             </div>
           </div>
 
-          <!-- E‑CHEQS -->
+          <!-- E-CHEQS -->
           <div class="group" style="margin-top:8px">
             <div class="inline" style="justify-content:space-between; gap:10px">
               <div class="inline" style="gap:8px">
                 <input id="echeqsToggle" type="checkbox" />
-                <label for="echeqsToggle" style="margin:0">Pago con <strong>E‑CHEQS</strong> (USD → ARS)</label>
+                <label for="echeqsToggle" style="margin:0">Pago con <strong>E-CHEQS</strong> (USD → ARS)</label>
               </div>
               <div class="inline" style="gap:8px; min-width:200px; flex:1">
                 <label for="tipoCambio" style="margin:0">TC ARS/USD</label>
-                <input id="tipoCambio" type="number" min="0" step="0.01" placeholder="Ej.: 1500.00" disabled />
+                <input id="tipoCambio" type="number" min="0" step="0.01" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej.: 1500.00" disabled />
               </div>
             </div>
-            <div class="note">Activá E‑CHEQS cuando la <strong>moneda sea USD</strong> para calcular el monto en <strong>ARS</strong> de cada cheque con su fecha.</div>
+            <div id="echeqHint" class="hint" style="display:none">Se cambió la moneda a <strong>USD</strong> para habilitar E-CHEQS. Ingresá el <strong>tipo de cambio</strong> y tocá <strong>Calcular</strong>.</div>
           </div>
 
           <div style="margin-top:8px" class="group">
@@ -261,10 +234,11 @@
     const cuotasCustomEl = $("#cuotasCustom");
     const fechaInicioEl = $("#fechaInicio");
 
-    // E‑CHEQS
+    // E-CHEQS
     const echeqsToggle = $("#echeqsToggle");
     const tipoCambioEl = $("#tipoCambio");
     const tcInfo = $("#tcInfo");
+    const echeqHint = $("#echeqHint");
 
     // entrega controls
     const tabPct = $("#tabPct");
@@ -294,38 +268,15 @@
     const theadRow = $("#theadRow");
     const tfootRow = $("#tfootRow");
 
-    function fmt(n, moneda) {
-      try { return new Intl.NumberFormat('es-AR', { style:'currency', currency: moneda }).format(n); }
-      catch(e){ return n.toLocaleString('es-AR', { minimumFractionDigits:2, maximumFractionDigits:2 }); }
-    }
-    function fmtDate(d){
-      try{ return new Intl.DateTimeFormat('es-AR', { day:'2-digit', month:'2-digit', year:'numeric' }).format(d); }
-      catch(e){ const yyyy=d.getFullYear(), mm=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0'); return `${dd}/${mm}/${yyyy}`; }
-    }
+    function fmt(n, moneda) { try { return new Intl.NumberFormat('es-AR', { style:'currency', currency: moneda }).format(n); } catch(e){ return n.toLocaleString('es-AR', { minimumFractionDigits:2, maximumFractionDigits:2 }); } }
+    function fmtDate(d){ try{ return new Intl.DateTimeFormat('es-AR', { day:'2-digit', month:'2-digit', year:'numeric' }).format(d); } catch(e){ const yyyy=d.getFullYear(), mm=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0'); return `${dd}/${mm}/${yyyy}`; } }
     function parseISODate(value){ const [y,m,d] = value.split("-").map(Number); return new Date(y, m-1, d); }
     function addDays(date, days){ const d=new Date(date.getTime()); d.setDate(d.getDate()+days); return d; }
     function moveToBusinessDay(date){ const dow=date.getDay(); if (dow===0) return addDays(date,1); if (dow===6) return addDays(date,2); return date; }
 
-    function setEntregaPct(p){
-      const chips=[...chipsEl.querySelectorAll(".chip")];
-      chips.forEach(c => c.classList.toggle("active", c.dataset.p === String(p)));
-      entregaRangeEl.value = p; entregaBadgeEl.textContent = `${p}%`;
-    }
-    function switchTab(mode){
-      if(mode === 'pct'){
-        tabPct.classList.add("active"); tabPct.setAttribute("aria-selected","true");
-        tabMonto.classList.remove("active"); tabMonto.setAttribute("aria-selected","false");
-        panelPct.style.display=""; panelMonto.style.display="none";
-      } else {
-        tabMonto.classList.add("active"); tabMonto.setAttribute("aria-selected","true");
-        tabPct.classList.remove("active"); tabPct.setAttribute("aria-selected","false");
-        panelMonto.style.display=""; panelPct.style.display="none";
-      }
-    }
-    function updateEcheqsUI(){
-      const isUSD = monedaEl.value === "USD";
-      tipoCambioEl.disabled = !(isUSD && echeqsToggle.checked);
-    }
+    function setEntregaPct(p){ const chips=[...chipsEl.querySelectorAll(".chip")]; chips.forEach(c => c.classList.toggle("active", c.dataset.p === String(p))); entregaRangeEl.value = p; entregaBadgeEl.textContent = `${p}%`; }
+    function switchTab(mode){ if(mode === 'pct'){ tabPct.classList.add("active"); tabPct.setAttribute("aria-selected","true"); tabMonto.classList.remove("active"); tabMonto.setAttribute("aria-selected","false"); panelPct.style.display=""; panelMonto.style.display="none"; } else { tabMonto.classList.add("active"); tabMonto.setAttribute("aria-selected","true"); tabPct.classList.remove("active"); tabPct.setAttribute("aria-selected","false"); panelMonto.style.display=""; panelPct.style.display="none"; } }
+    function updateEcheqsUI(){ if (echeqsToggle.checked && monedaEl.value !== "USD") { monedaEl.value = "USD"; echeqHint.style.display = ""; } else { echeqHint.style.display = "none"; } const isUSD = monedaEl.value === "USD"; const enable = (isUSD && echeqsToggle.checked); tipoCambioEl.disabled = !enable; if (enable) { setTimeout(()=>{ tipoCambioEl.focus(); tipoCambioEl.select(); }, 0); } }
 
     function calcular() {
       const moneda = monedaEl.value || "ARS";
@@ -358,46 +309,35 @@
       const base = saldo / n;
       const valorCuota = redondearEl.checked ? Math.round(base) : parseFloat(base.toFixed(2));
 
-      // E‑CHEQS
       const enableEcheqs = (moneda === "USD" && echeqsToggle.checked);
       let tc = parseFloat((tipoCambioEl.value || "").toString().replace(",", "."));
-      if (enableEcheqs && (isNaN(tc) || tc <= 0)) { alert("Ingresá un tipo de cambio ARS/USD válido para E‑CHEQS."); return; }
-
-      // Table headers (ARS column when E‑CHEQS)
-      theadRow.innerHTML = enableEcheqs
-        ? `<th>#</th><th>Fecha</th><th>Importe (USD)</th><th>Importe (ARS)</th>`
-        : `<th>#</th><th>Fecha</th><th>Importe</th>`;
-      tfootRow.innerHTML = enableEcheqs
-        ? `<td colspan="3">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`
-        : `<td colspan="2">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`;
-
-      if (enableEcheqs) {
-        tcInfo.style.display = "";
-        tcInfo.textContent = `E‑CHEQS activo · Tipo de cambio: ${tc.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})} ARS/USD`;
+      if (enableEcheqs && (isNaN(tc) || tc <= 0)) {
+        tcInfo.style.display = ""; tcInfo.textContent = "E-CHEQS activo · Ingresá un tipo de cambio ARS/USD válido para ver importes en ARS.";
+      } else if (enableEcheqs) {
+        tcInfo.style.display = ""; tcInfo.textContent = `E-CHEQS activo · Tipo de cambio: ${tc.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})} ARS/USD`;
       } else {
         tcInfo.style.display = "none";
       }
 
-      // Stats
+      theadRow.innerHTML = (enableEcheqs && !isNaN(tc) && tc > 0) ? `<th>#</th><th>Fecha</th><th>Importe (USD)</th><th>Importe (ARS)</th>` : `<th>#</th><th>Fecha</th><th>Importe</th>`;
+      tfootRow.innerHTML = (enableEcheqs && !isNaN(tc) && tc > 0) ? `<td colspan="3">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>` : `<td colspan="2">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`;
+
       statTotal.textContent = fmt(total, moneda);
       statEntrega.textContent = `${fmt(entrega, moneda)} (${p}%)`;
       statSaldo.textContent = fmt(saldo, moneda);
       statCuotas.textContent = `${n}`;
       statCuota.textContent = fmt(valorCuota, moneda);
 
-      // Build table
       tbody.innerHTML = "";
       let sumaBase = 0, sumaArs = 0;
 
-      // Entrega
       if (entrega > 0){
         const tr0 = document.createElement("tr");
         tr0.innerHTML = `<td>Entrega</td><td>${fmtDate(moveToBusinessDay(fechaInicio))}</td><td>${fmt(entrega, moneda)}</td>`;
-        if (enableEcheqs){ const entARS = +(entrega*tc).toFixed(2); tr0.innerHTML += `<td>${fmt(entARS,"ARS")}</td>`; sumaArs += entARS; }
+        if (enableEcheqs && !isNaN(tc) && tc > 0){ const entARS = +(entrega*tc).toFixed(2); tr0.innerHTML += `<td>${fmt(entARS,"ARS")}</td>`; sumaArs += entARS; }
         tbody.appendChild(tr0); sumaBase += entrega;
       }
 
-      // Cuotas
       let acumuladoCuotas = 0;
       for (let i=1; i<=n; i++) {
         let fechaCuota = moveToBusinessDay(addDays(fechaInicio, 30*i));
@@ -408,52 +348,58 @@
         }
         acumuladoCuotas += cuota; sumaBase += cuota;
         let row = `<td>Cuota ${i}</td><td>${fmtDate(fechaCuota)}</td><td>${fmt(cuota, moneda)}</td>`;
-        if (enableEcheqs){ const cuARS = +(cuota*tc).toFixed(2); row += `<td>${fmt(cuARS,"ARS")}</td>`; sumaArs += cuARS; }
+        if (enableEcheqs && !isNaN(tc) && tc > 0){ const cuARS = +(cuota*tc).toFixed(2); row += `<td>${fmt(cuARS,"ARS")}</td>`; sumaArs += cuARS; }
         const tr = document.createElement("tr"); tr.innerHTML = row; tbody.appendChild(tr);
       }
 
-      // Totales
-      tfootTotal.textContent = enableEcheqs ? fmt(sumaArs, "ARS") : fmt(sumaBase, moneda);
+      tfootTotal.textContent = (enableEcheqs && !isNaN(tc) && tc > 0) ? fmt(sumaArs, "ARS") : fmt(sumaBase, moneda);
     }
 
     async function exportPNG(){
       try{
-        if (document.querySelector("#statTotal").textContent === "—") calcular();
-        const canvas = await html2canvas(exportArea, { backgroundColor: null, scale: 2, useCORS: true, windowWidth: document.documentElement.scrollWidth });
+        if (statTotal.textContent === "—") calcular();
+        // Wait for fonts to be fully loaded to avoid fuzzy text
+        if (document.fonts && document.fonts.ready) { try{ await document.fonts.ready; }catch(e){} }
+        // Force dark background during capture
+        document.body.classList.add('exporting');
+        const canvas = await html2canvas(exportArea, { backgroundColor: '#0b0c10', scale: 2, useCORS: true, allowTaint: true, windowWidth: document.documentElement.scrollWidth });
         const dataURL = canvas.toDataURL("image/png");
         const a = document.createElement("a");
         const now = new Date();
         const stamp = now.toISOString().replace(/[:.]/g,"-");
         a.href = dataURL; a.download = `forma_de_pago_${stamp}.png`; a.click();
-      }catch(e){ alert("No se pudo generar el PNG. Probá nuevamente."); }
+        document.body.classList.remove('exporting');
+      }catch(e){ document.body.classList.remove('exporting'); alert("No se pudo generar el PNG. Probá nuevamente."); }
     }
 
-    // Eventos
-    [montoEl, monedaEl, cuotasCustomEl, entregaMontoEl, redondearEl, fechaInicioEl, tipoCambioEl].forEach(el => {
+    [montoEl, cuotasCustomEl, entregaMontoEl, redondearEl, fechaInicioEl, tipoCambioEl].forEach(el => {
       if(!el) return;
+      el.addEventListener("change", calcular);
       el.addEventListener("keyup", (ev)=>{ if (ev.key === "Enter") calcular(); });
     });
+    monedaEl.addEventListener("change", ()=>{ updateEcheqsUI(); calcular(); });
+    echeqsToggle.addEventListener("change", ()=>{ updateEcheqsUI(); calcular(); });
     $("#chipsEntrega").addEventListener("click", (e)=>{ const chip = e.target.closest(".chip"); if (!chip) return; setEntregaPct(chip.dataset.p); calcular(); });
     entregaRangeEl.addEventListener("input", (e)=>{ setEntregaPct(e.target.value); });
     tabPct.addEventListener("click", ()=>{ switchTab('pct'); calcular(); });
     tabMonto.addEventListener("click", ()=>{ switchTab('monto'); calcular(); });
-    monedaEl.addEventListener("change", ()=>{ updateEcheqsUI(); });
-    echeqsToggle.addEventListener("change", ()=>{ updateEcheqsUI(); });
 
-    calcularBtn.addEventListener("click", calcular);
+    document.querySelector("#calcular").addEventListener("click", calcular);
+    document.querySelector("#imprimir").addEventListener("click", exportPNG);
+
     copiarBtn.addEventListener("click", async ()=>{
       const moneda = monedaEl.value || "ARS";
       const enableEcheqs = (moneda === "USD" && echeqsToggle.checked);
       const tc = parseFloat((tipoCambioEl.value || "").toString().replace(",", "."));
 
-      const total = document.querySelector("#statTotal").textContent;
-      const entregaTxt = document.querySelector("#statEntrega").textContent;
-      const saldoTxt = document.querySelector("#statSaldo").textContent;
-      const cuotas = document.querySelector("#statCuotas").textContent;
-      const vcuota = document.querySelector("#statCuota").textContent;
+      const total = statTotal.textContent;
+      const entregaTxt = statEntrega.textContent;
+      const saldoTxt = statSaldo.textContent;
+      const cuotas = statCuotas.textContent;
+      const vcuota = statCuota.textContent;
       if (!total || total === "—") { calcular(); }
 
-      const headers = enableEcheqs ? ["#", "Fecha", "Importe (USD)", "Importe (ARS)"] : ["#", "Fecha", "Importe"];
+      const headers = (enableEcheqs && !isNaN(tc) && tc > 0) ? ["#", "Fecha", "Importe (USD)", "Importe (ARS)"] : ["#", "Fecha", "Importe"];
       const lines = [headers];
       [...tbody.querySelectorAll("tr")].forEach(tr=>{
         const tds = tr.querySelectorAll("td");
@@ -461,31 +407,13 @@
         lines.push(row);
       });
       const txtTabla = lines.map(r=>r.join("\t")).join("\n");
-      const tcLine = enableEcheqs ? `Tipo de cambio: ${tc.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})} ARS/USD\n` : "";
+      const tcLine = (enableEcheqs && !isNaN(tc) && tc > 0) ? `Tipo de cambio: ${tc.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})} ARS/USD\n` : "";
       const disclaimer = "⚠️ El tipo de cambio utilizado es referencial y puede variar sin previo aviso.\n";
       const resumen = `FORMA DE PAGO\n${tcLine}Fecha de inicio: ${badgeFecha.textContent.replace("Fecha de inicio: ","")}\nMoneda base: ${moneda}\nMonto total: ${total}\n${entregaTxt ? "Entrega: " + entregaTxt + "\n" : ""}Saldo: ${saldoTxt}\nCuotas: ${cuotas}\nValor por cuota: ${vcuota}\n\nDetalle:\n${txtTabla}\n\n${disclaimer}`;
-      try {
-        await navigator.clipboard.writeText(resumen);
-        copiarBtn.textContent = "¡Copiado!"; setTimeout(()=>copiarBtn.textContent="Copiar", 1200);
-      } catch(e) { alert("No se pudo copiar automáticamente. Copiá manualmente:\n\n" + resumen); }
-    });
-    document.querySelector("#imprimir").addEventListener("click", exportPNG);
-    limpiarBtn.addEventListener("click", ()=>{
-      montoEl.value = ""; cuotasCustomEl.value = 6; fechaInicioEl.valueAsDate = new Date();
-      setEntregaPct(30); entregaMontoEl.value = ""; redondearEl.checked = false; switchTab('pct');
-      echeqsToggle.checked = false; tipoCambioEl.value = ""; updateEcheqsUI();
-      document.querySelector("#statTotal").textContent = "—";
-      document.querySelector("#statEntrega").textContent = "—";
-      document.querySelector("#statSaldo").textContent = "—";
-      document.querySelector("#statCuotas").textContent = "—";
-      document.querySelector("#statCuota").textContent = "—";
-      tbody.innerHTML = ""; tfootTotal.textContent = "—";
-      theadRow.innerHTML = `<th>#</th><th>Fecha</th><th>Importe</th>`;
-      tfootRow.innerHTML = `<td colspan="2">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`;
-      montoEl.focus();
+      try { await navigator.clipboard.writeText(resumen); copiarBtn.textContent = "¡Copiado!"; setTimeout(()=>copiarBtn.textContent="Copiar", 1200); }
+      catch(e) { alert("No se pudo copiar automáticamente. Copiá manualmente:\n\n" + resumen); }
     });
 
-    // init
     setEntregaPct(30); switchTab('pct'); fechaInicioEl.valueAsDate = new Date(); updateEcheqsUI(); calcular();
   </script>
 </body>
