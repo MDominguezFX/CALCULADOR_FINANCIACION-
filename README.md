@@ -1,4 +1,4 @@
-Calculador de Financiacion
+Calculador de Financiacion Online
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -39,45 +39,69 @@ Calculador de Financiacion
     .dot{ width:10px; height:10px; border-radius:999px; background:var(--accent); box-shadow:0 0 18px var(--accent) }
     h2{ font-size:18px; margin:2px 0 10px }
     label{ display:block; margin:8px 0 6px; font-weight:600; color:#d6dde4 }
+
     input[type="number"], select, input[type="range"], input[type="text"], input[type="date"]{
       width:100%; padding:14px 14px; background:#0b0d11; border:1px solid var(--edge);
       color:#e6e7ea; border-radius:12px; outline:none; font-size:16px;
     }
     input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin_button{ -webkit-appearance:none; margin:0 }
     .row{ display:flex; gap:10px; flex-wrap:wrap } .row > *{ flex:1 1 200px }
+
     .chip{ border:1px solid var(--edge); background:#0c1014; padding:10px 14px; border-radius:12px; cursor:pointer;
       font-weight:600; color:#cdd6de; transition:.2s; user-select:none; touch-action:manipulation; }
     .chip:hover{ transform:translateY(-1px); border-color:#263142 } .chip.active{ background:#0d1519; border-color:#2a3a46; color:#e8f9f3 }
+
     .segmented{ display:flex; gap:8px; background:#0c1014; border:1px solid var(--edge); border-radius:12px; padding:6px; overflow:auto }
-    .segmented button{ flex:1; padding:12px 14px; background:transparent; border:1px solid transparent; border-radius:8px;
-      color:#cdd6de; cursor:pointer; font-weight:700; font-size:16px; min-width:140px; touch-action:manipulation; }
+    .segmented button{
+      flex:1; padding:12px 14px; background:transparent; border:1px solid transparent; border-radius:8px;
+      color:#cdd6de; cursor:pointer; font-weight:700; font-size:16px; min-width:140px; touch-action:manipulation;
+    }
     .segmented button.active{ background:#0d1519; border-color:#2a3a46; color:#e8f9f3 }
+
     .switch{display:flex; align-items:center; gap:10px; margin-top:8px}
     .switch input{ width:52px; height:28px; appearance:none; background:#12161c; border:1px solid #2a3442; border-radius:999px; position:relative; cursor:pointer }
     .switch input:checked{ background:#113c32; border-color:#1b6b56 } .switch input::after{ content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; background:#e5e7eb; border-radius:50%; transition:.2s left }
     .switch input:checked::after{ left:27px; }
     .muted{ color:#9aa3ad; font-size:13px }
-    .btn{ padding:14px 16px; border-radius:12px; border:1px solid var(--edge); background:#0b0f14; color:#e5e7eb; cursor:pointer; font-weight:700; transition:.2s; font-size:16px; }
-    .btn:hover{ transform:translateY(-1px) } .btn.primary{ background:linear-gradient(180deg,var(--accent),var(--accent-3)); border-color:#0d5d49 }
+
+    .btn{ padding:14px 16px; border-radius:12px; border:1px solid var(--edge);
+      background:#0b0f14; color:#e5e7eb; cursor:pointer; font-weight:700; transition:.2s; font-size:16px; }
+    .btn:hover{ transform:translateY(-1px) }
+    .btn.primary{ background:linear-gradient(180deg,var(--accent),var(--accent-3)); border-color:#0d5d49 }
     .btn.bar{ display:flex; gap:10px; flex-wrap:wrap } .btn.bar .btn{ flex:1 1 160px }
+
     .stat{ background:linear-gradient(180deg,#0f141a,#0c1117); border:1px solid var(--edge); border-radius:14px; padding:12px; }
     .stat .k{ font-size:12px; color:#b1bcc7 } .stat .v{ font-size:20px; font-weight:700; letter-spacing:.2px; word-break:break-word }
+
+    /* Tabla desplazable */
     .tableWrap{ width:100%; overflow:auto; -webkit-overflow-scrolling:touch; border-radius:12px; border:1px solid var(--edge) }
-    table{ width:100%; border-collapse:collapse; min-width:560px; } th, td{ padding:12px 10px; border-bottom:1px solid var(--edge); text-align:left; white-space:nowrap }
-    th{ color:#d1d7de; font-weight:600; background:#0e1218; position:sticky; top:0 } tfoot td{ font-weight:700 }
+    table{ width:100%; border-collapse:collapse; min-width:560px; }
+    th, td{ padding:12px 10px; border-bottom:1px solid var(--edge); text-align:left; white-space:nowrap }
+    th{ color:#d1d7de; font-weight:600; background:#0e1218; position:sticky; top:0 }
+    tfoot td{ font-weight:700 }
     .footer{ text-align:center; margin-top:12px; color:#9aa7b3; font-size:12px }
+
     .inline{ display:flex; align-items:center; gap:10px; flex-wrap:wrap }
-    .pct-badge{ padding:6px 10px; border-radius:10px; background:#0d1418; border:1px solid var(--edge); font-weight:700; color:#bfe7da; min-width:56px; text-align:center }
+    .pct-badge{ padding:6px 10px; border-radius:10px; background:#0d1418; border:1px solid var(--edge);
+      font-weight:700; color:#bfe7da; min-width:56px; text-align:center }
     .group{ border:1px dashed #1f2a34; border-radius:12px; padding:10px }
-    /* Export state: force dark background to avoid white PNG */
+
+    /* ---- PNG: asegurar fondo oscuro sólido ---- */
+    .card.export{ background:#0b0c10 !important; box-shadow:none; }
+    #tabla thead th{ background:#0e1218 !important; }
+
+    /* Estado de exportación (refuerzo si usás gradientes) */
     .exporting #exportArea{ background:#0b0c10 !important; }
     .exporting #tabla thead th{ background:#0e1218 !important; }
     .exporting .card{ box-shadow:none !important; }
+
+    /* Área exportable */
     #exportArea{ padding:12px }
     .headerRow{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px }
     .brandTitle{ font-size:22px; font-weight:800; letter-spacing:.6px; text-transform:uppercase }
     .badge{ padding:6px 10px; border:1px solid var(--edge); border-radius:999px; font-size:12px; color:#cfeee4 }
-    .note{ font-size:12px; color:#a6b3bf } .disclaimer{ margin-top:10px; font-size:12px; color:#a6b3bf }
+    .note{ font-size:12px; color:#a6b3bf }
+    .disclaimer{ margin-top:10px; font-size:12px; color:#a6b3bf }
     .hint{ font-size:12px; color:#c9d4df }
   </style>
 </head>
@@ -178,7 +202,8 @@ Calculador de Financiacion
         </div>
       </section>
 
-      <section class="card" id="exportArea">
+      <!-- BLOQUE EXPORTABLE CON FONDO SÓLIDO -->
+      <section class="card export" id="exportArea">
         <div class="content">
           <div class="headerRow">
             <div class="brandTitle">FORMA DE PAGO</div>
@@ -319,8 +344,12 @@ Calculador de Financiacion
         tcInfo.style.display = "none";
       }
 
-      theadRow.innerHTML = (enableEcheqs && !isNaN(tc) && tc > 0) ? `<th>#</th><th>Fecha</th><th>Importe (USD)</th><th>Importe (ARS)</th>` : `<th>#</th><th>Fecha</th><th>Importe</th>`;
-      tfootRow.innerHTML = (enableEcheqs && !isNaN(tc) && tc > 0) ? `<td colspan="3">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>` : `<td colspan="2">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`;
+      theadRow.innerHTML = (enableEcheqs && !isNaN(tc) && tc > 0)
+        ? `<th>#</th><th>Fecha</th><th>Importe (USD)</th><th>Importe (ARS)</th>`
+        : `<th>#</th><th>Fecha</th><th>Importe</th>`;
+      tfootRow.innerHTML = (enableEcheqs && !isNaN(tc) && tc > 0)
+        ? `<td colspan="3">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`
+        : `<td colspan="2">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`;
 
       statTotal.textContent = fmt(total, moneda);
       statEntrega.textContent = `${fmt(entrega, moneda)} (${p}%)`;
@@ -358,18 +387,27 @@ Calculador de Financiacion
     async function exportPNG(){
       try{
         if (statTotal.textContent === "—") calcular();
-        // Wait for fonts to be fully loaded to avoid fuzzy text
+        // Esperar fuentes (evita texto borroso)
         if (document.fonts && document.fonts.ready) { try{ await document.fonts.ready; }catch(e){} }
-        // Force dark background during capture
+        // Fuerza fondo oscuro durante captura
         document.body.classList.add('exporting');
-        const canvas = await html2canvas(exportArea, { backgroundColor: '#0b0c10', scale: 2, useCORS: true, allowTaint: true, windowWidth: document.documentElement.scrollWidth });
+        const canvas = await html2canvas(exportArea, {
+          backgroundColor: '#0b0c10',
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          windowWidth: document.documentElement.scrollWidth
+        });
         const dataURL = canvas.toDataURL("image/png");
         const a = document.createElement("a");
         const now = new Date();
         const stamp = now.toISOString().replace(/[:.]/g,"-");
         a.href = dataURL; a.download = `forma_de_pago_${stamp}.png`; a.click();
         document.body.classList.remove('exporting');
-      }catch(e){ document.body.classList.remove('exporting'); alert("No se pudo generar el PNG. Probá nuevamente."); }
+      }catch(e){
+        document.body.classList.remove('exporting');
+        alert("No se pudo generar el PNG. Probá nuevamente.");
+      }
     }
 
     [montoEl, cuotasCustomEl, entregaMontoEl, redondearEl, fechaInicioEl, tipoCambioEl].forEach(el => {
@@ -414,6 +452,7 @@ Calculador de Financiacion
       catch(e) { alert("No se pudo copiar automáticamente. Copiá manualmente:\n\n" + resumen); }
     });
 
+    // init
     setEntregaPct(30); switchTab('pct'); fechaInicioEl.valueAsDate = new Date(); updateEcheqsUI(); calcular();
   </script>
 </body>
