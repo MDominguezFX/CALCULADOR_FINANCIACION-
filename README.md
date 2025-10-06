@@ -1,4 +1,4 @@
-# CALCULADOR_FINANCIACION-
+# CALCULADOR_FINANCIACION
 <html lang="es">
 <head>
   <meta charset="utf-8" />
