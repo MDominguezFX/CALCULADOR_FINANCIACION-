@@ -1,10 +1,10 @@
-Calculador de Financiacion Online
+
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Forma de pago — Sin interés</title>
-  <meta name="description" content="Calculadora de formas de pago sin interés con entrega, fechas cada 30 días, exportación a PNG y opción E-CHEQS con tipo de cambio. Optimizada para móviles con encabezado y aviso de tipo de cambio." />
+  <meta name="description" content="Calculadora de formas de pago sin interés con entrega, fechas cada 30 días, exportación a PNG y opción E-CHEQS. Optimizada para móviles y con exportación Oscuro/Claro." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,6 @@ Calculador de Financiacion Online
     :root{
       --bg:#0e0f12; --bg2:#0b0c10; --card:#101216; --edge:#1a1f27;
       --text:#e6e7ea; --muted:#9aa3ad; --accent:#10a37f; --accent-2:#2dd4bf; --accent-3:#0b7e62;
-      --warn:#f59e0b;
     }
     @media (prefers-color-scheme: dark){ :root{ color-scheme: dark light; } }
     *{box-sizing:border-box}
@@ -25,21 +24,29 @@ Calculador de Financiacion Online
       color:var(--text); display:flex; align-items:flex-start; justify-content:center; padding:16px 16px 24px;
       -webkit-tap-highlight-color: transparent; background-attachment: fixed;
     }
+    /* Evitar bug en html2canvas durante captura */
+    body.exporting{ background-attachment: scroll !important; }
+
     @media (max-width: 768px) {
       body { padding-top: calc(64px + env(safe-area-inset-top)); padding-bottom: calc(48px + env(safe-area-inset-bottom)); }
       .card:first-child { margin-top: 12px; }
     }
+
     .app{width:100%; max-width:1140px}
     .grid{display:grid; gap:14px; grid-template-columns:1fr}
     @media(min-width:1000px){ .grid{grid-template-columns:1.05fr .95fr} }
-    .card{ background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00)), var(--card);
-      border:1px solid var(--edge); border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.35); overflow:hidden; }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00)), var(--card);
+      border:1px solid var(--edge); border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.35); overflow:hidden;
+    }
     .content{ padding:16px }
+
     h1{ font-size:18px; margin:0; letter-spacing:.2px; display:flex; gap:10px; align-items:center; flex-wrap:wrap }
     .dot{ width:10px; height:10px; border-radius:999px; background:var(--accent); box-shadow:0 0 18px var(--accent) }
     h2{ font-size:18px; margin:2px 0 10px }
-    label{ display:block; margin:8px 0 6px; font-weight:600; color:#d6dde4 }
 
+    label{ display:block; margin:8px 0 6px; font-weight:600; color:#d6dde4 }
     input[type="number"], select, input[type="range"], input[type="text"], input[type="date"]{
       width:100%; padding:14px 14px; background:#0b0d11; border:1px solid var(--edge);
       color:#e6e7ea; border-radius:12px; outline:none; font-size:16px;
@@ -73,7 +80,6 @@ Calculador de Financiacion Online
     .stat{ background:linear-gradient(180deg,#0f141a,#0c1117); border:1px solid var(--edge); border-radius:14px; padding:12px; }
     .stat .k{ font-size:12px; color:#b1bcc7 } .stat .v{ font-size:20px; font-weight:700; letter-spacing:.2px; word-break:break-word }
 
-    /* Tabla desplazable */
     .tableWrap{ width:100%; overflow:auto; -webkit-overflow-scrolling:touch; border-radius:12px; border:1px solid var(--edge) }
     table{ width:100%; border-collapse:collapse; min-width:560px; }
     th, td{ padding:12px 10px; border-bottom:1px solid var(--edge); text-align:left; white-space:nowrap }
@@ -86,20 +92,31 @@ Calculador de Financiacion Online
       font-weight:700; color:#bfe7da; min-width:56px; text-align:center }
     .group{ border:1px dashed #1f2a34; border-radius:12px; padding:10px }
 
-    /* ---- PNG: asegurar fondo oscuro sólido ---- */
-    .card.export{ background:#0b0c10 !important; box-shadow:none; }
-    #tabla thead th{ background:#0e1218 !important; }
+    /* ======= TEMAS DEL BLOQUE EXPORTABLE ======= */
+    /* Oscuro (por defecto) */
+    #exportArea.export-dark{ background:#0b0c10 !important; color:#e6e7ea !important; }
+    #exportArea.export-dark .stat{ background:linear-gradient(180deg,#0f141a,#0c1117); border-color:#1a1f27; }
+    #exportArea.export-dark .brandTitle, #exportArea.export-dark .k, #exportArea.export-dark .v, #exportArea.export-dark .note, #exportArea.export-dark .disclaimer, #exportArea.export-dark .footer{ color:#e6e7ea }
+    #exportArea.export-dark .badge{ color:#cfeee4; border-color:#1a1f27 }
+    #exportArea.export-dark #tabla thead th{ background:#0e1218 !important; color:#e6e7ea !important; }
+    #exportArea.export-dark #tabla td{ color:#e6e7ea !important; }
+    /* Claro */
+    #exportArea.export-light{ background:#ffffff !important; color:#111 !important; }
+    #exportArea.export-light .stat{ background:#ffffff; border-color:#e5e7eb; }
+    #exportArea.export-light .brandTitle, #exportArea.export-light .k, #exportArea.export-light .v, #exportArea.export-light .note, #exportArea.export-light .disclaimer, #exportArea.export-light .footer{ color:#111 }
+    #exportArea.export-light .badge{ color:#111; border-color:#e5e7eb }
+    #exportArea.export-light #tabla thead th{ background:#f3f4f6 !important; color:#111 !important; border-bottom:1px solid #e5e7eb; }
+    #exportArea.export-light #tabla td{ color:#111 !important; border-bottom:1px solid #e5e7eb; }
 
-    /* Estado de exportación (refuerzo si usás gradientes) */
-    .exporting #exportArea{ background:#0b0c10 !important; }
-    .exporting #tabla thead th{ background:#0e1218 !important; }
+    /* Refuerzos durante exportación */
+    .exporting #exportArea.export-dark{ background:#0b0c10 !important; }
+    .exporting #exportArea.export-light{ background:#ffffff !important; }
     .exporting .card{ box-shadow:none !important; }
-
-    /* Área exportable */
     #exportArea{ padding:12px }
+
     .headerRow{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px }
     .brandTitle{ font-size:22px; font-weight:800; letter-spacing:.6px; text-transform:uppercase }
-    .badge{ padding:6px 10px; border:1px solid var(--edge); border-radius:999px; font-size:12px; color:#cfeee4 }
+    .badge{ padding:6px 10px; border:1px solid var(--edge); border-radius:999px; font-size:12px; }
     .note{ font-size:12px; color:#a6b3bf }
     .disclaimer{ margin-top:10px; font-size:12px; color:#a6b3bf }
     .hint{ font-size:12px; color:#c9d4df }
@@ -193,6 +210,16 @@ Calculador de Financiacion Online
             <label for="redondear" class="muted">Redondear cada cuota al entero más cercano</label>
           </div>
 
+          <!-- Tema de exportación -->
+          <div class="group" style="margin-top:8px">
+            <label style="margin:0 0 6px; display:block; font-weight:700">Tema para exportar PNG</label>
+            <div class="segmented" role="tablist" aria-label="Tema exportación">
+              <button id="themeDark" class="active" type="button" aria-selected="true" data-theme="dark">Oscuro</button>
+              <button id="themeLight" type="button" aria-selected="false" data-theme="light">Claro</button>
+            </div>
+            <div class="muted" style="margin-top:6px">El PNG se genera con este tema. Útil para visores con fondo blanco (GitHub Pages, email, etc.).</div>
+          </div>
+
           <div class="btn bar" style="margin-top:10px">
             <button id="calcular" class="btn primary">Calcular</button>
             <button id="copiar" class="btn">Copiar</button>
@@ -202,8 +229,8 @@ Calculador de Financiacion Online
         </div>
       </section>
 
-      <!-- BLOQUE EXPORTABLE CON FONDO SÓLIDO -->
-      <section class="card export" id="exportArea">
+      <!-- BLOQUE EXPORTABLE -->
+      <section class="card" id="exportArea">
         <div class="content">
           <div class="headerRow">
             <div class="brandTitle">FORMA DE PAGO</div>
@@ -254,18 +281,17 @@ Calculador de Financiacion Online
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     const $ = (q) => document.querySelector(q);
+
     const montoEl = $("#monto");
     const monedaEl = $("#moneda");
     const cuotasCustomEl = $("#cuotasCustom");
     const fechaInicioEl = $("#fechaInicio");
 
-    // E-CHEQS
     const echeqsToggle = $("#echeqsToggle");
     const tipoCambioEl = $("#tipoCambio");
     const tcInfo = $("#tcInfo");
     const echeqHint = $("#echeqHint");
 
-    // entrega controls
     const tabPct = $("#tabPct");
     const tabMonto = $("#tabMonto");
     const panelPct = $("#panelPct");
@@ -281,6 +307,11 @@ Calculador de Financiacion Online
     const imprimirBtn = $("#imprimir");
     const limpiarBtn = $("#limpiar");
 
+    // Tema exportación
+    const themeDarkBtn = $("#themeDark");
+    const themeLightBtn = $("#themeLight");
+    const exportArea = $("#exportArea");
+
     const statTotal = $("#statTotal");
     const statEntrega = $("#statEntrega");
     const statSaldo = $("#statSaldo");
@@ -288,21 +319,73 @@ Calculador de Financiacion Online
     const statCuota = $("#statCuota");
     const tbody = document.querySelector("#tabla tbody");
     const tfootTotal = $("#tfootTotal");
-    const exportArea = $("#exportArea");
     const badgeFecha = $("#badgeFecha");
     const theadRow = $("#theadRow");
     const tfootRow = $("#tfootRow");
 
-    function fmt(n, moneda) { try { return new Intl.NumberFormat('es-AR', { style:'currency', currency: moneda }).format(n); } catch(e){ return n.toLocaleString('es-AR', { minimumFractionDigits:2, maximumFractionDigits:2 }); } }
-    function fmtDate(d){ try{ return new Intl.DateTimeFormat('es-AR', { day:'2-digit', month:'2-digit', year:'numeric' }).format(d); } catch(e){ const yyyy=d.getFullYear(), mm=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0'); return `${dd}/${mm}/${yyyy}`; } }
+    // Helpers
+    function fmt(n, moneda) {
+      try { return new Intl.NumberFormat('es-AR', { style:'currency', currency: moneda }).format(n); }
+      catch(e){ return n.toLocaleString('es-AR', { minimumFractionDigits:2, maximumFractionDigits:2 }); }
+    }
+    function fmtDate(d){
+      try{ return new Intl.DateTimeFormat('es-AR', { day:'2-digit', month:'2-digit', year:'numeric' }).format(d); }
+      catch(e){ const yyyy=d.getFullYear(), mm=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0'); return `${dd}/${mm}/${yyyy}`; }
+    }
     function parseISODate(value){ const [y,m,d] = value.split("-").map(Number); return new Date(y, m-1, d); }
     function addDays(date, days){ const d=new Date(date.getTime()); d.setDate(d.getDate()+days); return d; }
     function moveToBusinessDay(date){ const dow=date.getDay(); if (dow===0) return addDays(date,1); if (dow===6) return addDays(date,2); return date; }
 
-    function setEntregaPct(p){ const chips=[...chipsEl.querySelectorAll(".chip")]; chips.forEach(c => c.classList.toggle("active", c.dataset.p === String(p))); entregaRangeEl.value = p; entregaBadgeEl.textContent = `${p}%`; }
-    function switchTab(mode){ if(mode === 'pct'){ tabPct.classList.add("active"); tabPct.setAttribute("aria-selected","true"); tabMonto.classList.remove("active"); tabMonto.setAttribute("aria-selected","false"); panelPct.style.display=""; panelMonto.style.display="none"; } else { tabMonto.classList.add("active"); tabMonto.setAttribute("aria-selected","true"); tabPct.classList.remove("active"); tabPct.setAttribute("aria-selected","false"); panelMonto.style.display=""; panelPct.style.display="none"; } }
-    function updateEcheqsUI(){ if (echeqsToggle.checked && monedaEl.value !== "USD") { monedaEl.value = "USD"; echeqHint.style.display = ""; } else { echeqHint.style.display = "none"; } const isUSD = monedaEl.value === "USD"; const enable = (isUSD && echeqsToggle.checked); tipoCambioEl.disabled = !enable; if (enable) { setTimeout(()=>{ tipoCambioEl.focus(); tipoCambioEl.select(); }, 0); } }
+    // Entrega
+    function setEntregaPct(p){
+      const chips=[...document.querySelectorAll("#chipsEntrega .chip")];
+      chips.forEach(c => c.classList.toggle("active", c.dataset.p === String(p)));
+      if (entregaRangeEl) entregaRangeEl.value = p;
+      if (entregaBadgeEl) entregaBadgeEl.textContent = `${p}%`;
+    }
+    function switchTab(mode){
+      if(mode === 'pct'){
+        tabPct.classList.add("active"); tabPct.setAttribute("aria-selected","true");
+        tabMonto.classList.remove("active"); tabMonto.setAttribute("aria-selected","false");
+        panelPct.style.display=""; panelMonto.style.display="none";
+      } else {
+        tabMonto.classList.add("active"); tabMonto.setAttribute("aria-selected","true");
+        tabPct.classList.remove("active"); tabPct.setAttribute("aria-selected","false");
+        panelMonto.style.display=""; panelPct.style.display="none";
+      }
+    }
 
+    // E-CHEQS UI
+    function updateEcheqsUI(){
+      if (echeqsToggle.checked && monedaEl.value !== "USD") {
+        monedaEl.value = "USD"; echeqHint.style.display = "";
+      } else {
+        echeqHint.style.display = "none";
+      }
+      const isUSD = monedaEl.value === "USD";
+      const enable = (isUSD && echeqsToggle.checked);
+      tipoCambioEl.disabled = !enable;
+      if (enable) {
+        setTimeout(()=>{ tipoCambioEl.focus(); tipoCambioEl.select(); }, 0);
+      }
+    }
+
+    // Tema exportación
+    function setExportTheme(theme){
+      exportArea.classList.remove("export-dark","export-light");
+      if (theme === "light") {
+        exportArea.classList.add("export-light");
+        themeLightBtn.classList.add("active"); themeLightBtn.setAttribute("aria-selected","true");
+        themeDarkBtn.classList.remove("active"); themeDarkBtn.setAttribute("aria-selected","false");
+      } else {
+        exportArea.classList.add("export-dark");
+        themeDarkBtn.classList.add("active"); themeDarkBtn.setAttribute("aria-selected","true");
+        themeLightBtn.classList.remove("active"); themeLightBtn.setAttribute("aria-selected","false");
+      }
+    }
+    function getExportTheme(){ return exportArea.classList.contains("export-light") ? "light" : "dark"; }
+
+    // Cálculo
     function calcular() {
       const moneda = monedaEl.value || "ARS";
       const total = parseFloat((montoEl.value || "").toString().replace(",", "."));
@@ -325,7 +408,7 @@ Calculador de Financiacion Online
         const rawEntrega = parseFloat((entregaMontoEl.value || "0").toString().replace(",", ".")) || 0;
         entrega = Math.min(Math.max(rawEntrega, 0), total);
         p = total > 0 ? Math.round((entrega / total) * 100) : 0;
-        entregaBadgeEl.textContent = `${p}%`;
+        if (entregaBadgeEl) entregaBadgeEl.textContent = `${p}%`;
       }
 
       let saldo = +(total - entrega).toFixed(2);
@@ -344,12 +427,10 @@ Calculador de Financiacion Online
         tcInfo.style.display = "none";
       }
 
+      // Encabezados según si hay ARS por E-CHEQS
       theadRow.innerHTML = (enableEcheqs && !isNaN(tc) && tc > 0)
         ? `<th>#</th><th>Fecha</th><th>Importe (USD)</th><th>Importe (ARS)</th>`
         : `<th>#</th><th>Fecha</th><th>Importe</th>`;
-      tfootRow.innerHTML = (enableEcheqs && !isNaN(tc) && tc > 0)
-        ? `<td colspan="3">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`
-        : `<td colspan="2">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`;
 
       statTotal.textContent = fmt(total, moneda);
       statEntrega.textContent = `${fmt(entrega, moneda)} (${p}%)`;
@@ -363,7 +444,10 @@ Calculador de Financiacion Online
       if (entrega > 0){
         const tr0 = document.createElement("tr");
         tr0.innerHTML = `<td>Entrega</td><td>${fmtDate(moveToBusinessDay(fechaInicio))}</td><td>${fmt(entrega, moneda)}</td>`;
-        if (enableEcheqs && !isNaN(tc) && tc > 0){ const entARS = +(entrega*tc).toFixed(2); tr0.innerHTML += `<td>${fmt(entARS,"ARS")}</td>`; sumaArs += entARS; }
+        if (enableEcheqs && !isNaN(tc) && tc > 0){
+          const entARS = +(entrega*tc).toFixed(2);
+          tr0.innerHTML += `<td>${fmt(entARS,"ARS")}</td>`; sumaArs += entARS;
+        }
         tbody.appendChild(tr0); sumaBase += entrega;
       }
 
@@ -376,40 +460,65 @@ Calculador de Financiacion Online
           if (redondearEl.checked) cuota = Math.round(saldo - acumuladoCuotas);
         }
         acumuladoCuotas += cuota; sumaBase += cuota;
+
         let row = `<td>Cuota ${i}</td><td>${fmtDate(fechaCuota)}</td><td>${fmt(cuota, moneda)}</td>`;
-        if (enableEcheqs && !isNaN(tc) && tc > 0){ const cuARS = +(cuota*tc).toFixed(2); row += `<td>${fmt(cuARS,"ARS")}</td>`; sumaArs += cuARS; }
+        if (enableEcheqs && !isNaN(tc) && tc > 0){
+          const cuARS = +(cuota*tc).toFixed(2);
+          row += `<td>${fmt(cuARS,"ARS")}</td>`; sumaArs += cuARS;
+        }
         const tr = document.createElement("tr"); tr.innerHTML = row; tbody.appendChild(tr);
       }
 
-      tfootTotal.textContent = (enableEcheqs && !isNaN(tc) && tc > 0) ? fmt(sumaArs, "ARS") : fmt(sumaBase, moneda);
+      if (enableEcheqs && !isNaN(tc) && tc > 0) {
+        tfootRow.innerHTML = `<td colspan="3">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`;
+        tfootTotal.textContent = fmt(sumaArs, "ARS");
+      } else {
+        tfootRow.innerHTML = `<td colspan="2">Total (Entrega + Cuotas)</td><td id="tfootTotal">—</td>`;
+        tfootTotal.textContent = fmt(sumaBase, moneda);
+      }
     }
 
     async function exportPNG(){
       try{
         if (statTotal.textContent === "—") calcular();
-        // Esperar fuentes (evita texto borroso)
         if (document.fonts && document.fonts.ready) { try{ await document.fonts.ready; }catch(e){} }
-        // Fuerza fondo oscuro durante captura
+
+        // Tema seleccionado
+        const theme = getExportTheme();
+        const bg = theme === "light" ? "#ffffff" : "#0b0c10";
+
+        // Asegurar clase del tema en el bloque exportable (también afecta vista previa)
+        setExportTheme(theme);
+
+        // Fuerza fondo correcto y saca sombras durante la captura
         document.body.classList.add('exporting');
+
         const canvas = await html2canvas(exportArea, {
-          backgroundColor: '#0b0c10',
+          backgroundColor: bg,
           scale: 2,
           useCORS: true,
           allowTaint: true,
-          windowWidth: document.documentElement.scrollWidth
+          windowWidth: document.documentElement.scrollWidth,
+          windowHeight: document.documentElement.scrollHeight,
+          scrollX: 0,
+          scrollY: -window.scrollY
         });
+
         const dataURL = canvas.toDataURL("image/png");
         const a = document.createElement("a");
         const now = new Date();
         const stamp = now.toISOString().replace(/[:.]/g,"-");
         a.href = dataURL; a.download = `forma_de_pago_${stamp}.png`; a.click();
+
         document.body.classList.remove('exporting');
       }catch(e){
         document.body.classList.remove('exporting');
         alert("No se pudo generar el PNG. Probá nuevamente.");
+        console.error(e);
       }
     }
 
+    // Eventos
     [montoEl, cuotasCustomEl, entregaMontoEl, redondearEl, fechaInicioEl, tipoCambioEl].forEach(el => {
       if(!el) return;
       el.addEventListener("change", calcular);
@@ -417,13 +526,21 @@ Calculador de Financiacion Online
     });
     monedaEl.addEventListener("change", ()=>{ updateEcheqsUI(); calcular(); });
     echeqsToggle.addEventListener("change", ()=>{ updateEcheqsUI(); calcular(); });
-    $("#chipsEntrega").addEventListener("click", (e)=>{ const chip = e.target.closest(".chip"); if (!chip) return; setEntregaPct(chip.dataset.p); calcular(); });
-    entregaRangeEl.addEventListener("input", (e)=>{ setEntregaPct(e.target.value); });
+
+    document.querySelector("#chipsEntrega").addEventListener("click", (e)=>{
+      const chip = e.target.closest(".chip"); if (!chip) return;
+      setEntregaPct(chip.dataset.p); calcular();
+    });
+    document.querySelector("#entregaPct").addEventListener("input", (e)=>{ setEntregaPct(e.target.value); });
+
     tabPct.addEventListener("click", ()=>{ switchTab('pct'); calcular(); });
     tabMonto.addEventListener("click", ()=>{ switchTab('monto'); calcular(); });
 
-    document.querySelector("#calcular").addEventListener("click", calcular);
-    document.querySelector("#imprimir").addEventListener("click", exportPNG);
+    themeDarkBtn.addEventListener("click", ()=> setExportTheme("dark"));
+    themeLightBtn.addEventListener("click", ()=> setExportTheme("light"));
+
+    calcularBtn.addEventListener("click", calcular);
+    imprimirBtn.addEventListener("click", exportPNG);
 
     copiarBtn.addEventListener("click", async ()=>{
       const moneda = monedaEl.value || "ARS";
@@ -452,8 +569,13 @@ Calculador de Financiacion Online
       catch(e) { alert("No se pudo copiar automáticamente. Copiá manualmente:\n\n" + resumen); }
     });
 
-    // init
-    setEntregaPct(30); switchTab('pct'); fechaInicioEl.valueAsDate = new Date(); updateEcheqsUI(); calcular();
+    // Init
+    setEntregaPct(30);
+    switchTab('pct');
+    fechaInicioEl.valueAsDate = new Date();
+    setExportTheme("dark");      // Oscuro por defecto
+    updateEcheqsUI();
+    calcular();
   </script>
 </body>
 </html>
